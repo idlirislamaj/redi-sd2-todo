@@ -12,7 +12,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 @RestController
-final class TodoServiceController {
+public final class TodoServiceController {
   private final TodoListService todoListService;
 
   TodoServiceController(@Autowired TodoListService todoListService) {
@@ -30,21 +30,21 @@ final class TodoServiceController {
       case "TASK":
         if (addItemDto.deadline != null && !addItemDto.deadline.isEmpty()) {
           todoListService.addTaskWithDeadline(
-              addItemDto.label, LocalDate.parse(addItemDto.deadline, DateTimeFormatter.ISO_DATE));
+                  addItemDto.label, LocalDate.parse(addItemDto.deadline, DateTimeFormatter.ISO_DATE));
         } else {
           todoListService.addTask(addItemDto.label);
         }
         break;
       case "RECURRING":
         todoListService.addRecurringTask(
-            addItemDto.label, toPeriod(addItemDto.frequency, addItemDto.period));
+                addItemDto.label, toPeriod(addItemDto.frequency, addItemDto.period));
         break;
       case "SHOPPING_ITEM":
         todoListService.addShoppingItem(addItemDto.label, addItemDto.amount);
         break;
       default:
         throw new HttpClientErrorException(
-            HttpStatus.BAD_REQUEST, String.format("Unknown type %s", addItemDto.type));
+                HttpStatus.BAD_REQUEST, String.format("Unknown type %s", addItemDto.type));
     }
     return new AddItemResponseDto(currentItems());
   }
@@ -61,7 +61,7 @@ final class TodoServiceController {
         return Period.ofYears(frequency);
       default:
         throw new HttpClientErrorException(
-            HttpStatus.BAD_REQUEST, String.format("Unknown period unit %s", unit));
+                HttpStatus.BAD_REQUEST, String.format("Unknown period unit %s", unit));
     }
   }
 
@@ -78,10 +78,10 @@ final class TodoServiceController {
 
   private List<ItemDto> currentItems() {
     return List.of(
-        ItemDto.oneTimeTaskWithLabel("Learn German"),
-        ItemDto.oneTimeTaskWithLabelAndDeadline("Do mid-semester project for ReDI", "2019-12-31"),
-        ItemDto.recurringTaskWithLabel("Do ReDI homework"),
-        ItemDto.shoppingItemWithLabel("Müesli"));
+            ItemDto.oneTimeTaskWithLabel("Learn German"),
+            ItemDto.oneTimeTaskWithLabelAndDeadline("Do mid-semester project for ReDI", "2019-12-31"),
+            ItemDto.recurringTaskWithLabel("Do ReDI homework"),
+            ItemDto.shoppingItemWithLabel("Müesli"));
   }
 
   private static final class FetchItemsResponseDto {
@@ -120,7 +120,7 @@ final class TodoServiceController {
     }
   }
 
-  private static final class ItemDto {
+  public static final class ItemDto {
     private static long nextId = 0;
     String id;
     String label;
@@ -130,7 +130,7 @@ final class TodoServiceController {
     String period;
     String deadline;
 
-    static ItemDto oneTimeTaskWithLabel(String label) {
+    public static ItemDto oneTimeTaskWithLabel(String label) {
       ItemDto itemDto = new ItemDto();
       itemDto.label = label;
       itemDto.id = String.valueOf(nextId++);
@@ -138,7 +138,7 @@ final class TodoServiceController {
       return itemDto;
     }
 
-    static ItemDto oneTimeTaskWithLabelAndDeadline(String label, String deadline) {
+    public static ItemDto oneTimeTaskWithLabelAndDeadline(String label, String deadline) {
       ItemDto itemDto = new ItemDto();
       itemDto.label = label;
       itemDto.deadline = deadline;
@@ -147,7 +147,7 @@ final class TodoServiceController {
       return itemDto;
     }
 
-    static ItemDto recurringTaskWithLabel(String label) {
+    public static ItemDto recurringTaskWithLabel(String label) {
       ItemDto itemDto = new ItemDto();
       itemDto.label = label;
       itemDto.frequency = 1;
@@ -157,7 +157,7 @@ final class TodoServiceController {
       return itemDto;
     }
 
-    static ItemDto shoppingItemWithLabel(String label) {
+    public static ItemDto shoppingItemWithLabel(String label) {
       ItemDto itemDto = new ItemDto();
       itemDto.label = label;
       itemDto.amount = 1;
