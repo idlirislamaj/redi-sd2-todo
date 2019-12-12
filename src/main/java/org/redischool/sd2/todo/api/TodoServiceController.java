@@ -82,7 +82,6 @@ final class TodoServiceController {
   private List<ItemDto> currentItems() {
 
     //return List.of(
-
        // ItemDto.oneTimeTaskWithLabel("Learn German"),
        // ItemDto.oneTimeTaskWithLabelAndDeadline("Do mid-semester project for ReDI", "2019-12-31"),
        // ItemDto.recurringTaskWithLabel("Do ReDI homework"),
