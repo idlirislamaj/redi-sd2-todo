@@ -8,7 +8,7 @@ import java.time.Period;
 import java.util.List;
 
 @Service
-final class ConcreteTodoListService implements TodoListService {
+public final class ConcreteTodoListService implements TodoListService {
   @Override
   public void addTask(String label) {
     throw new UnsupportedOperationException("Not implemented yet");
@@ -39,12 +39,11 @@ final class ConcreteTodoListService implements TodoListService {
     throw new UnsupportedOperationException("Not implemented yet");
   }
 
-  public List<Item> currentItems(){
+  public static List<Item> currentItems(){
     return List.of(
-            new OneTimeTask("Learn German"),
+            new OneTimeTask("Learn Java"),
             new OneTimeTask("Learn German",LocalDate.of(2019, Month.NOVEMBER,9)),
             new RecurringTask("Do ReDI homework",Period.ofWeeks(1)),
-            new ShoppingItem("Müesli")
-    );
+            new ShoppingItem("Müesli"));
   }
 }

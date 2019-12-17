@@ -1,6 +1,5 @@
 package org.redischool.sd2.todo.domain;
-
-import java.time.LocalDate;
+import org.redischool.sd2.todo.api.TodoServiceController;
 import java.time.Period;
 
 public class RecurringTask extends Item {
@@ -10,7 +9,16 @@ public class RecurringTask extends Item {
         super(label);
         this.period = period;
     }
-    public RecurringTask(String label) {
-        super(label);
+
+    public Period getPeriod() {
+        return period;
+    }
+
+    @Override
+    public TodoServiceController.ItemDto toItemDto() {
+        TodoServiceController.ItemDto result = new TodoServiceController.ItemDto();
+        result.label = getLabel();
+        result.period = getPeriod().toString();
+        return result;
     }
 }

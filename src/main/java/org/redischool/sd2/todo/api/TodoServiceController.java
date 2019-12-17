@@ -1,7 +1,9 @@
 package org.redischool.sd2.todo.api;
 
 import org.redischool.sd2.todo.domain.Item;
+import org.redischool.sd2.todo.domain.OneTimeTask;
 import org.redischool.sd2.todo.domain.TodoListService;
+import org.redischool.sd2.todo.domain.ConcreteTodoListService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -12,11 +14,13 @@ import java.time.Period;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
+import java.util.Set;
 
 @RestController
-final class TodoServiceController {
-  private final TodoListService todoListService;
-  Item myItem;
+  public final class TodoServiceController {
+    private final TodoListService todoListService;
+    Item myItem;
 
   TodoServiceController(@Autowired TodoListService todoListService) {
     this.todoListService = todoListService;
@@ -80,7 +84,13 @@ final class TodoServiceController {
   }
 
   private List<ItemDto> currentItems() {
-
+    List<ItemDto> myDto = new ArrayList<>();
+    List<Item> myItems = ConcreteTodoListService.currentItems();
+    for (Item item : myItems){
+      ItemDto myItemDto = item.toItemDto();
+      myDto.add(myItemDto);
+    }
+    return myDto;
     //return List.of(
        // ItemDto.oneTimeTaskWithLabel("Learn German"),
        // ItemDto.oneTimeTaskWithLabelAndDeadline("Do mid-semester project for ReDI", "2019-12-31"),
@@ -124,15 +134,15 @@ final class TodoServiceController {
     }
   }
 
-  private static final class ItemDto {
+  public static final class ItemDto {
     private static long nextId = 0;
-    String id;
-    String label;
-    String type;
-    Integer amount;
-    Integer frequency;
-    String period;
-    String deadline;
+    public String id;
+    public String label;
+    public String type;
+    public Integer amount;
+    public Integer frequency;
+    public String period;
+    public String deadline;
 
     static ItemDto oneTimeTaskWithLabel(String label) {
       ItemDto itemDto = new ItemDto();
