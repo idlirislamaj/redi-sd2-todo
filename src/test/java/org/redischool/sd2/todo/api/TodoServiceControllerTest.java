@@ -7,6 +7,7 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.redischool.sd2.todo.domain.Item;
 import org.redischool.sd2.todo.domain.TodoListService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -112,4 +113,5 @@ class TodoServiceControllerTest {
   private HttpEntity<String> httpEntity(String payload) {
     return new HttpEntity<>(payload, httpHeaders);
   }
+
 }

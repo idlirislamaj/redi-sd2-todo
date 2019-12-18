@@ -20,7 +20,6 @@ import java.util.Set;
 @RestController
   public final class TodoServiceController {
     private final TodoListService todoListService;
-    Item myItem;
 
   TodoServiceController(@Autowired TodoListService todoListService) {
     this.todoListService = todoListService;
@@ -84,6 +83,7 @@ import java.util.Set;
   }
 
   private List<ItemDto> currentItems() {
+
     List<ItemDto> myDto = new ArrayList<>();
     List<Item> myItems = ConcreteTodoListService.currentItems();
     for (Item item : myItems){
@@ -156,8 +156,6 @@ import java.util.Set;
       ItemDto itemDto = new ItemDto();
       itemDto.label = label;
       itemDto.deadline = deadline;
-      itemDto.id = String.valueOf(nextId++);
-      itemDto.type = "TASK";
       return itemDto;
     }
 
