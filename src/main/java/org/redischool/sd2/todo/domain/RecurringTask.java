@@ -2,9 +2,12 @@ package org.redischool.sd2.todo.domain;
 import org.redischool.sd2.todo.api.TodoServiceController;
 
 import java.time.Period;
+import java.time.temporal.TemporalUnit;
+import java.time.temporal.WeekFields;
 
 public class RecurringTask extends Item {
     Period period;
+    Integer frequency;
     public RecurringTask(String label){
         super(label);
     }
@@ -22,7 +25,25 @@ public class RecurringTask extends Item {
     public TodoServiceController.ItemDto toItemDto() {
         TodoServiceController.ItemDto result = new TodoServiceController.ItemDto();
         result.label = getLabel();
-        result.period = getPeriod().toString();
+        if (getPeriod().getYears() > 0){
+            result.period = "YEAR";
+            result.frequency = getPeriod().getYears();
+        }
+        if (getPeriod().getMonths() > 0){
+            result.period = "MONTH";
+            result.frequency = getPeriod().getMonths();
+        }
+        if ((getPeriod().getDays())>0){
+            if ((getPeriod().getDays())%7 == 0){
+                result.period = "WEEK";
+                result.frequency = (getPeriod().getDays())/7;
+            }else{
+                result.period = "DAY";
+                result.frequency = getPeriod().getDays();
+
+            }}
+        result.type = "RECURRING";
+
         return result;
     }
 }

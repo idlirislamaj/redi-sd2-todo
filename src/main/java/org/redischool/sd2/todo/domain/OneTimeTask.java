@@ -27,6 +27,7 @@ public class OneTimeTask extends Item {
         if (this.deadline != null){
             result.deadline = getDeadline().toString();
         }
+        result.type = "TASK";
         return result;
     }
 }

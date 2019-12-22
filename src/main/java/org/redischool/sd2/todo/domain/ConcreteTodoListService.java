@@ -6,37 +6,67 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 import java.time.Month;
 import java.time.Period;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
+
 
 @Service
 public final class ConcreteTodoListService implements TodoListService {
   @Override
   public void addTask(String label) {
-    String lbl = label;
-    Item myItem = new OneTimeTask(lbl);
+    boolean condition = false;
+    for (Item item : myItems){
+      if (item.getLabel().equals(label)){
+        condition = true;
+      }
+    }
+    if (condition){}else {myItems.add(new OneTimeTask(label));}
+    //throw new UnsupportedOperationException("Not implemented yet");
+  }
+
+  static List<Item> myItems = new ArrayList<>();
+  Map<String,Integer> shoppingMap = new HashMap<>();
+
+  @Override
+  public void addTaskWithDeadline(String label, LocalDate deadline) {
+    Item myItem = new OneTimeTask(label,deadline);
     myItems.add(myItem);
 
     //throw new UnsupportedOperationException("Not implemented yet");
   }
 
   @Override
-  public void addTaskWithDeadline(String label, LocalDate deadline) {
-    throw new UnsupportedOperationException("Not implemented yet");
+  public void addRecurringTask(String label, Period recurrencePeriod) {
+    myItems.add(new RecurringTask(label,recurrencePeriod));
+
+    //throw new UnsupportedOperationException("Not implemented yet");
   }
 
-  @Override
-  public void addRecurringTask(String label, Period recurrencePeriod) {
-    throw new UnsupportedOperationException("Not implemented yet");
-  }
+
 
   @Override
   public void addShoppingItem(String label, int amount) {
-    throw new UnsupportedOperationException("Not implemented yet");
+    boolean condition = false;
+    for (Item item : myItems){
+      if (item.getLabel().equals(label)){
+        condition = true;
+      }
+    }
+
+    if (condition){
+      for (Item item : myItems) {
+        if (item.getLabel().equals(label)) {
+          ShoppingItem shi = (ShoppingItem) item;
+          shi.setAmount(shi.getAmount()+amount);
+        }
+      }
+    }else {myItems.add(new ShoppingItem(label,amount));}
   }
+
 
   @Override
   public void markCompleted(String itemId) {
+
+
     throw new UnsupportedOperationException("Not implemented yet");
   }
 
@@ -44,15 +74,7 @@ public final class ConcreteTodoListService implements TodoListService {
   public void updateRecurringTasks() {
     throw new UnsupportedOperationException("Not implemented yet");
   }
-  static List<Item> myItems = new ArrayList<>();
-  static int count = 0;
+
   public static List<Item> currentItems(){
-    if (count == 0){
-      myItems.add(new OneTimeTask("Learn Java"));
-      myItems.add(new OneTimeTask("Learn German",LocalDate.of(2019, Month.NOVEMBER,9)));
-      myItems.add(new RecurringTask("Do ReDI homework",Period.ofWeeks(1)));
-      myItems.add(new ShoppingItem("Müesli"));
-    }
-    count++;
     return myItems;
 }}
