@@ -24,12 +24,10 @@ public final class ConcreteTodoListService implements TodoListService {
   }
 
   static List<Item> myItems = new ArrayList<>();
-  Map<String,Integer> shoppingMap = new HashMap<>();
 
   @Override
   public void addTaskWithDeadline(String label, LocalDate deadline) {
-    Item myItem = new OneTimeTask(label,deadline);
-    myItems.add(myItem);
+    myItems.add(new OneTimeTask(label,deadline));
 
     //throw new UnsupportedOperationException("Not implemented yet");
   }
@@ -66,8 +64,6 @@ public final class ConcreteTodoListService implements TodoListService {
   @Override
   public void markCompleted(String itemId) {
 
-
-    throw new UnsupportedOperationException("Not implemented yet");
   }
 
   @Override

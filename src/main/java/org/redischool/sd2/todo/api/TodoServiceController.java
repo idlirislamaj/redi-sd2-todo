@@ -82,8 +82,8 @@ import java.util.Set;
     todoListService.updateRecurringTasks();
   }
 
-  private List<ItemDto> currentItems() {
 
+  public List<ItemDto> currentItems() {
     List<ItemDto> myDto = new ArrayList<>();
     List<Item> myItems = ConcreteTodoListService.currentItems();
     for (Item item : myItems){

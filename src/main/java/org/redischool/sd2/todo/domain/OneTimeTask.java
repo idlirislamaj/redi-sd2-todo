@@ -24,6 +24,7 @@ public class OneTimeTask extends Item {
     public TodoServiceController.ItemDto toItemDto() {
         TodoServiceController.ItemDto result = new TodoServiceController.ItemDto();
         result.label = getLabel();
+
         if (this.deadline != null){
             result.deadline = getDeadline().toString();
         }
