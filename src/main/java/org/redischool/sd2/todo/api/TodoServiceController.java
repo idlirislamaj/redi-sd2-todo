@@ -82,10 +82,9 @@ import java.util.Set;
     todoListService.updateRecurringTasks();
   }
 
-
-  public List<ItemDto> currentItems() {
-    List<ItemDto> myDto = new ArrayList<>();
+  public static List<ItemDto> currentItems() {
     List<Item> myItems = ConcreteTodoListService.currentItems();
+    List<ItemDto> myDto = new ArrayList<>();
     for (Item item : myItems){
       ItemDto myItemDto = item.toItemDto();
       myDto.add(myItemDto);

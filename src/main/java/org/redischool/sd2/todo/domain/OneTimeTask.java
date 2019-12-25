@@ -5,7 +5,9 @@ import org.redischool.sd2.todo.api.TodoServiceController;
 import java.time.LocalDate;
 
 public class OneTimeTask extends Item {
+
     LocalDate deadline;
+
 
     OneTimeTask(String lbl){
         super(lbl);
@@ -28,6 +30,7 @@ public class OneTimeTask extends Item {
         if (this.deadline != null){
             result.deadline = getDeadline().toString();
         }
+        result.id = String.valueOf(getId());
         result.type = "TASK";
         return result;
     }

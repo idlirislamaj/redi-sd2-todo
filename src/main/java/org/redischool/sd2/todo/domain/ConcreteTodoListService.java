@@ -11,6 +11,7 @@ import java.util.*;
 
 @Service
 public final class ConcreteTodoListService implements TodoListService {
+
   @Override
   public void addTask(String label) {
     boolean condition = false;
@@ -19,14 +20,19 @@ public final class ConcreteTodoListService implements TodoListService {
         condition = true;
       }
     }
-    if (condition){}else {myItems.add(new OneTimeTask(label));}
+    if (condition){}else {
+      Item item = new OneTimeTask(label);
+      myItems.add(item);
+
+    }
+
     //throw new UnsupportedOperationException("Not implemented yet");
   }
 
-  static List<Item> myItems = new ArrayList<>();
 
   @Override
   public void addTaskWithDeadline(String label, LocalDate deadline) {
+
     myItems.add(new OneTimeTask(label,deadline));
 
     //throw new UnsupportedOperationException("Not implemented yet");
@@ -35,11 +41,7 @@ public final class ConcreteTodoListService implements TodoListService {
   @Override
   public void addRecurringTask(String label, Period recurrencePeriod) {
     myItems.add(new RecurringTask(label,recurrencePeriod));
-
-    //throw new UnsupportedOperationException("Not implemented yet");
   }
-
-
 
   @Override
   public void addShoppingItem(String label, int amount) {
@@ -63,7 +65,11 @@ public final class ConcreteTodoListService implements TodoListService {
 
   @Override
   public void markCompleted(String itemId) {
-
+    for (Item item : myItems){
+      if (item.getId() == Integer.parseInt(itemId)){
+        myItems.remove(item);
+      }
+    }
   }
 
   @Override
@@ -71,6 +77,7 @@ public final class ConcreteTodoListService implements TodoListService {
     throw new UnsupportedOperationException("Not implemented yet");
   }
 
+  static List<Item> myItems = new ArrayList<>();
   public static List<Item> currentItems(){
     return myItems;
 }}
