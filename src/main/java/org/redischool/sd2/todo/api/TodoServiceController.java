@@ -82,19 +82,14 @@ import java.util.Set;
     todoListService.updateRecurringTasks();
   }
 
+  static List<Item> myItems = ConcreteTodoListService.currentItems();
   public static List<ItemDto> currentItems() {
-    List<Item> myItems = ConcreteTodoListService.currentItems();
     List<ItemDto> myDto = new ArrayList<>();
     for (Item item : myItems){
       ItemDto myItemDto = item.toItemDto();
       myDto.add(myItemDto);
     }
     return myDto;
-    //return List.of(
-       // ItemDto.oneTimeTaskWithLabel("Learn German"),
-       // ItemDto.oneTimeTaskWithLabelAndDeadline("Do mid-semester project for ReDI", "2019-12-31"),
-       // ItemDto.recurringTaskWithLabel("Do ReDI homework"),
-       // ItemDto.shoppingItemWithLabel("Müesli"));
   }
 
   private static final class FetchItemsResponseDto {

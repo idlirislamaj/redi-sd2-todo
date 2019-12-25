@@ -65,11 +65,8 @@ public final class ConcreteTodoListService implements TodoListService {
 
   @Override
   public void markCompleted(String itemId) {
-    for (Item item : myItems){
-      if (item.getId() == Integer.parseInt(itemId)){
-        myItems.remove(item);
-      }
-    }
+    TodoServiceController.currentItems().removeIf(itemdto -> itemdto.id.equals(itemId));
+    myItems.removeIf(item -> item.getId() == Integer.parseInt(itemId));
   }
 
   @Override
