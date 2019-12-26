@@ -8,9 +8,7 @@ import java.time.temporal.WeekFields;
 public class RecurringTask extends Item {
     Period period;
     Integer frequency;
-    public RecurringTask(String label){
-        super(label);
-    }
+
 
     public RecurringTask(String label, java.time.Period period) {
         super(label);
@@ -39,6 +37,7 @@ public class RecurringTask extends Item {
                 result.frequency = (getPeriod().getDays())/7;
             }else{
                 result.period = "DAY";
+                result.id = String.valueOf(getId());
                 result.frequency = getPeriod().getDays();
 
             }}

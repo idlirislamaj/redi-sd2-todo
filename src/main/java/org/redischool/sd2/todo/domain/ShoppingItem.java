@@ -28,6 +28,7 @@ public class ShoppingItem extends Item {
         result.label = getLabel();
         result.amount = getAmount();
         result.type = "SHOPPING_ITEM";
+        result.id = String.valueOf(getId());
         return result;
     }
 }

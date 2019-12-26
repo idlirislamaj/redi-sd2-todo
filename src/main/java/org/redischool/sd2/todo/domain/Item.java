@@ -5,10 +5,10 @@ import org.redischool.sd2.todo.api.TodoServiceController;
 public abstract class Item{
 
     String label;
-    Integer id;
+    long id;
     public static int nextId = 1;
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 

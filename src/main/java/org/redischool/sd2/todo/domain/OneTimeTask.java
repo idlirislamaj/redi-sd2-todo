@@ -22,6 +22,10 @@ public class OneTimeTask extends Item {
         return deadline;
     }
 
+    public void setDeadline(LocalDate deadline) {
+        this.deadline = deadline;
+    }
+
     @Override
     public TodoServiceController.ItemDto toItemDto() {
         TodoServiceController.ItemDto result = new TodoServiceController.ItemDto();

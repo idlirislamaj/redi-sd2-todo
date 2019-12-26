@@ -20,21 +20,32 @@ public final class ConcreteTodoListService implements TodoListService {
         condition = true;
       }
     }
-    if (condition){}else {
-      Item item = new OneTimeTask(label);
+    if (!condition){Item item = new OneTimeTask(label);
       myItems.add(item);
-
+      System.out.println("addTask() with id: "+item.getId());
     }
 
-    //throw new UnsupportedOperationException("Not implemented yet");
   }
 
 
   @Override
   public void addTaskWithDeadline(String label, LocalDate deadline) {
-
-    myItems.add(new OneTimeTask(label,deadline));
-
+    boolean condition = false;
+    for (Item item : myItems){
+      if (item.getLabel().equals(label)){
+        condition = true;
+      }
+    }
+    if (!condition){myItems.add(new OneTimeTask(label,deadline));
+    }else {
+      for (Item item : myItems){
+        if (item.getLabel().equals(label)){
+          OneTimeTask onetimetask = (OneTimeTask) item;
+          onetimetask.setDeadline(deadline);
+          System.out.println("added task with deadline changed with id: "+item.getId());
+        }
+      }
+    }
     //throw new UnsupportedOperationException("Not implemented yet");
   }
 
@@ -56,10 +67,16 @@ public final class ConcreteTodoListService implements TodoListService {
       for (Item item : myItems) {
         if (item.getLabel().equals(label)) {
           ShoppingItem shi = (ShoppingItem) item;
+          System.out.println("updated shopping item with id: "+shi.getId());
           shi.setAmount(shi.getAmount()+amount);
+
         }
       }
-    }else {myItems.add(new ShoppingItem(label,amount));}
+    }else {Item shiItem = new ShoppingItem(label,amount);
+      myItems.add(shiItem);
+      System.out.println("added new shoppingitem with id: "+shiItem.getId());
+
+    }
   }
 
 
@@ -67,6 +84,7 @@ public final class ConcreteTodoListService implements TodoListService {
   public void markCompleted(String itemId) {
     TodoServiceController.currentItems().removeIf(itemdto -> itemdto.id.equals(itemId));
     myItems.removeIf(item -> item.getId() == Integer.parseInt(itemId));
+    System.out.println("removed item with id: "+itemId);
   }
 
   @Override
