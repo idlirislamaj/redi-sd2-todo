@@ -19,6 +19,10 @@ public class RecurringTask extends Item {
         return period;
     }
 
+    public void setPeriod(Period period) {
+        this.period = period;
+    }
+
     @Override
     public TodoServiceController.ItemDto toItemDto() {
         TodoServiceController.ItemDto result = new TodoServiceController.ItemDto();
@@ -42,7 +46,7 @@ public class RecurringTask extends Item {
 
             }}
         result.type = "RECURRING";
-
+        result.id = String.valueOf(getId());
         return result;
     }
 }

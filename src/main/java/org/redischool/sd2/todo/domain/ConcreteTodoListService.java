@@ -12,71 +12,71 @@ import java.util.*;
 @Service
 public final class ConcreteTodoListService implements TodoListService {
 
-  @Override
-  public void addTask(String label) {
-    boolean condition = false;
-    for (Item item : myItems){
+  public boolean isFound(String label){
+    for (Item  item: myItems){
       if (item.getLabel().equals(label)){
-        condition = true;
+        return true;
       }
     }
-    if (!condition){Item item = new OneTimeTask(label);
-      myItems.add(item);
-      System.out.println("addTask() with id: "+item.getId());
-    }
+    return false;
+  }
 
+  @Override
+  public void addTask(String label) {
+    if (isFound(label)){
+      for (Item item : myItems){
+        if (item.getLabel().equals(label)){
+          if (!(item instanceof OneTimeTask)){
+            return;
+          }
+        }
+      }
+    }else{myItems.add(new OneTimeTask(label));}
   }
 
 
   @Override
   public void addTaskWithDeadline(String label, LocalDate deadline) {
-    boolean condition = false;
-    for (Item item : myItems){
-      if (item.getLabel().equals(label)){
-        condition = true;
-      }
-    }
-    if (!condition){myItems.add(new OneTimeTask(label,deadline));
-    }else {
+    if (isFound(label)){
       for (Item item : myItems){
         if (item.getLabel().equals(label)){
-          OneTimeTask onetimetask = (OneTimeTask) item;
-          onetimetask.setDeadline(deadline);
-          System.out.println("added task with deadline changed with id: "+item.getId());
+          if (item instanceof OneTimeTask){
+            OneTimeTask onetimetask = (OneTimeTask) item;
+            onetimetask.setDeadline(deadline);
+          }else{return;}
         }
       }
-    }
-    //throw new UnsupportedOperationException("Not implemented yet");
+    }else {myItems.add(new OneTimeTask(label,deadline));}
   }
 
   @Override
   public void addRecurringTask(String label, Period recurrencePeriod) {
-    myItems.add(new RecurringTask(label,recurrencePeriod));
+    if (isFound(label)){
+      for (Item item : myItems){
+        if (item.getLabel().equals(label)){
+          if (item instanceof RecurringTask){
+            RecurringTask recurringTask = (RecurringTask) item;
+            recurringTask.setPeriod(recurrencePeriod);
+          }else{return;}
+
+        }
+      }
+    }else {myItems.add(new RecurringTask(label,recurrencePeriod));}
   }
 
   @Override
   public void addShoppingItem(String label, int amount) {
-    boolean condition = false;
-    for (Item item : myItems){
-      if (item.getLabel().equals(label)){
-        condition = true;
-      }
-    }
-
-    if (condition){
+    if (isFound(label)){
       for (Item item : myItems) {
         if (item.getLabel().equals(label)) {
-          ShoppingItem shi = (ShoppingItem) item;
-          System.out.println("updated shopping item with id: "+shi.getId());
-          shi.setAmount(shi.getAmount()+amount);
+          if (item instanceof ShoppingItem){
+            ShoppingItem shi = (ShoppingItem) item;
+            shi.setAmount(shi.getAmount()+amount);
+          }else{return;}
 
         }
       }
-    }else {Item shiItem = new ShoppingItem(label,amount);
-      myItems.add(shiItem);
-      System.out.println("added new shoppingitem with id: "+shiItem.getId());
-
-    }
+    }else {myItems.add(new ShoppingItem(label,amount));}
   }
 
 
@@ -84,7 +84,6 @@ public final class ConcreteTodoListService implements TodoListService {
   public void markCompleted(String itemId) {
     TodoServiceController.currentItems().removeIf(itemdto -> itemdto.id.equals(itemId));
     myItems.removeIf(item -> item.getId() == Integer.parseInt(itemId));
-    System.out.println("removed item with id: "+itemId);
   }
 
   @Override
@@ -95,4 +94,5 @@ public final class ConcreteTodoListService implements TodoListService {
   static List<Item> myItems = new ArrayList<>();
   public static List<Item> currentItems(){
     return myItems;
-}}
+}
+}
